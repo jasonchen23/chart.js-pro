@@ -116,12 +116,12 @@ require_once("./db-connect.php");
                 <h4>109-110年台北市各區之平均客單價</h4>
                 <canvas id="myChart-1"></canvas>
                 <?php
-                $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart_clear` WHERE `receipt` BETWEEN 201901 AND 201912 group by `downtown-id` ORDER BY `chart_clear`.`downtown-id` ASC;";
+                $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart-test` WHERE `city-id`='A' AND `company-name`='便利商店' AND `receipt` BETWEEN 201901 AND 201912 group by `downtown-id` ORDER BY `chart-test`.`downtown-id` ASC;";
                 $result= $conn -> query($sql);
                 $data=$result->fetch_all(MYSQLI_ASSOC);
                 $data109= json_encode($data);
                 ?><?php
-                $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart_clear` WHERE `receipt` BETWEEN 202001 AND 202012 group by `downtown-id` ORDER BY `chart_clear`.`downtown-id` ASC;";
+                $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart-test` WHERE `city-id`='A' AND `company-name`='便利商店' AND `receipt` BETWEEN 202001 AND 202012 group by `downtown-id` ORDER BY `chart-test`.`downtown-id` ASC;";
                 $result= $conn -> query($sql);
                 $data=$result->fetch_all(MYSQLI_ASSOC);
                 $data110= json_encode($data);
@@ -200,39 +200,30 @@ require_once("./db-connect.php");
                 <h4>台灣三大都會區各零售業客單價統計</h4>
                 <canvas id="myChart-2" width="800" height="400"></canvas>
                 <?php
-                    $sql="SELECT sum(`average-per-cost`) AS `average-per-cost` FROM `chart_clear` WHERE `receipt` BETWEEN 201901 AND 201912 group by `downtown-id` ORDER BY `chart_clear`.`downtown-id` ASC;";
+                    $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart-test` WHERE `city-id`='A' AND `receipt` BETWEEN 201901 AND 201912 group by `downtown-id` ORDER BY `chart-test`.`downtown-id` ASC;";
                     $result= $conn -> query($sql);
                     $data=$result->fetch_all(MYSQLI_ASSOC);
                     $data1= json_encode($data);
                     ?>
                 <script>
-                    let newArr=[];
+                    let labels0=[];
+                    let data0=[];
                     let dataContent1=<?=$data1?>.map(function(item){
-                        let n={x:item["average-per-cost"]};
-                        newArr.push(n.x);
-                            return n;
+                        let n={
+                            x:item["company-name"],
+                            y:item["average-per-cost"]};
+                        labels0.push(n.x);
+                        data0.push(n.y);
+                        return n;
                     });
                             // console.log(dataContent1);   
                             // console.log(newArr);
                     var ctx = document.getElementById('myChart-2');
                     const data2 = {
-                        labels: [
-                            '松山區',
-                            '大安區',
-                            '中正區',
-                            '萬華區',
-                            '大同區',
-                            '中山區',
-                            '文山區',
-                            '南港區',
-                            '內湖區',
-                            '士林區',
-                            '北投區',
-                            '信義區',
-                        ],
+                        labels: labels0,
                         datasets: [{
                             label: '台北市各行政區零售業平均客單價',
-                            data: newArr,
+                            data: data0,
                             fill: true,
                             backgroundColor: 'rgba(255, 65, 164, 0.3)',
                             borderColor: '#fff0',
@@ -320,7 +311,7 @@ require_once("./db-connect.php");
             <div class="chart-body">
                 <canvas id="myChart-3"></canvas>
                 <?php
-                    $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart-taipei` WHERE `receipt` BETWEEN 201901 AND 201912 group by `downtown-id` ORDER BY `chart-taipei`.`downtown-id` ASC;";
+                    $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart-test` WHERE `city-id`='A' AND `receipt` BETWEEN 201901 AND 201912 group by `downtown-id` ORDER BY `chart-test`.`downtown-id` ASC;";
                     $result= $conn -> query($sql);
                     $data=$result->fetch_all(MYSQLI_ASSOC);
                     $data2= json_encode($data);
@@ -386,7 +377,7 @@ require_once("./db-connect.php");
             <div class="chart-body">
                 <canvas id="myChart-5"></canvas>
                 <?php
-                    $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart` WHERE `city-id`='A' AND `receipt` BETWEEN 202001 AND 202012 group by `downtown-id` ORDER BY `chart`.`downtown-id` ASC;";
+                    $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart-test` WHERE `city-id`='A' AND `receipt` BETWEEN 202001 AND 202012 group by `downtown-id` ORDER BY `chart-test`.`downtown-id` ASC;";
                     $result= $conn -> query($sql);
                     $data=$result->fetch_all(MYSQLI_ASSOC);
                     $data3= json_encode($data);
