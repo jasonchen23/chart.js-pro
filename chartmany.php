@@ -1,3 +1,6 @@
+<?php
+require_once("./db-connect.php");
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,6 +11,7 @@
     <!-- Bootstrap CSS v5.0.2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <style>
     body {
@@ -103,7 +107,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> -->
 
     <div class="main">
 
@@ -111,33 +115,79 @@
             <div class="chart-body text-center">
                 <h4>109-110年台北市各區之平均客單價</h4>
                 <canvas id="myChart-7"></canvas>
-                
+                <?php
+                $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart_clear` WHERE `receipt` BETWEEN 201901 AND 201912 group by `downtown-id` ORDER BY `chart_clear`.`downtown-id` ASC;";
+                $result= $conn -> query($sql);
+                $data=$result->fetch_all(MYSQLI_ASSOC);
+                $data109= json_encode($data);
+                ?><?php
+                $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart_clear` WHERE `receipt` BETWEEN 202001 AND 202012 group by `downtown-id` ORDER BY `chart_clear`.`downtown-id` ASC;";
+                $result= $conn -> query($sql);
+                $data=$result->fetch_all(MYSQLI_ASSOC);
+                $data110= json_encode($data);
+                ?>
                 <script>
+                    let dataContent109=<?=$data109?>.map(function(item){
+                        let newItem={
+                            x:item["downtown-name"],
+                            y:item["average-per-cost"]
+                        }
+                        return newItem;
+                    })
+                    console.log(dataContent109);
+                    let dataContent110=<?=$data110?>.map(function(item){
+                        let newItem={
+                            x:item["downtown-name"],
+                            y:item["average-per-cost"]
+                        }
+                        return newItem;
+                    })
+                    console.log(dataContent110);
                     var ctx = document.getElementById('myChart-7');
-                    var chart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['中正區', '大同區', '中山區', '松山區', '大安區', '萬華區', '信義區', '士林區', '北投區', '內湖區',
-                                '南港區', '文山區'
+                    const data1 = {
+                        // labels: ['中正區', '大同區', '中山區', '松山區', '大安區', '萬華區', '信義區', '士林區', '北投區', '內湖區', '南港區', '文山區'],
+                        datasets: [{
+                            type: 'bar',
+                            label: '109年台北市各區之平均客單價',
+                            data: dataContent109,
+                            borderColor: [
+                                'rgba(255,99,132,1)',
+                                // 'rgba(54, 162, 235, 1)',
+                                // 'rgba(255, 206, 86, 1)',
+                                // 'rgba(75, 192, 192, 1)'
                             ],
-                            datasets: [{
-                                type: 'bar',
-                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                borderColor: 'rgba(54, 162, 235, 1)',
-                                borderWidth: 1,
-                                label: '110台北市各區之平均客單價',
-                                data: [81645, 40040, 64244, 78722, 112983, 48389, 101189, 57170, 51766,
-                                    63018, 44479,
-                                    88720]},
-                                {type: 'line',
-                                label: '109年台北市各區之平均客單價',
-                                data: [88720, 95424, 137013, 76543, 104554, 37751, 112401, 54208, 56856,
-                                30673, 88873,12102],
-                                lineTension: 0, // 曲線的彎度，設 0 表示直線
-                                fill: true, // 是否填滿色彩
-                            }]
-                        },
-                    });
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)'
+                            ],
+                        }, {
+                            type: 'line',
+                            borderWidth: 1,
+                            label: '110台北市各區之平均客單價',
+                            data: dataContent110,
+                            fill: false,
+                            borderColor: 'rgb(54, 162, 235)'
+                        }]
+                    };
+
+                    const config = {
+                        type: 'scatter',
+                        data: data1,
+                        options: {
+                            scales: {
+                                y: {
+                                    display: true,
+                                    position:'left',
+                                    title:{
+                                        display: true,
+                                        text:'TWD'
+                                    }
+                                }
+                            }
+                        }
+                    };
+                    const myChart = new Chart(ctx, config);
                 </script>
             </div>
         </div>
@@ -151,23 +201,59 @@
                 <canvas id="myChart-8" width="800" height="400"></canvas>
             </div>
         </div>
-
+        <?php
+                $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart_clear` WHERE `receipt` BETWEEN 201901 AND 201912 AND `downtown`=group by `downtown-id` AND `comany-name` ORDER BY `chart_clear`.`downtown-id` ASC;";
+                $result= $conn -> query($sql);
+                $data=$result->fetch_all(MYSQLI_ASSOC);
+                $data1= json_encode($data);
+                ?>
+                <?php
+                $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart_clear` WHERE `receipt` BETWEEN 202001 AND 202012 group by `downtown-id` ORDER BY `chart_clear`.`downtown-id` ASC;";
+                $result= $conn -> query($sql);
+                $data=$result->fetch_all(MYSQLI_ASSOC);
+                $data2= json_encode($data);
+                $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart_clear` WHERE `receipt` BETWEEN 202001 AND 202012 group by `downtown-id` ORDER BY `chart_clear`.`downtown-id` ASC;";
+                $result= $conn -> query($sql);
+                $data=$result->fetch_all(MYSQLI_ASSOC);
+                $data3= json_encode($data);
+                ?>
         <script>
+            let dataContent1=<?=$data1?>.map(function(item){
+                        let newItem={
+                            x:item["comany-name"],
+                            y:item["average-per-cost"]
+                        }
+                        return newItem;
+                    })
+                    console.log(dataContent1);
+                    let dataContent2=<?=$data2?>.map(function(item){
+                        let newItem={
+                            x:item["company-name"],
+                            y:item["average-per-cost"]
+                        }
+                        return newItem;
+                    })
+                    console.log(dataContent2);
+                    let dataContent3=<?=$data3?>.map(function(item){
+                        let newItem={
+                            x:item["company-name"],
+                            y:item["average-per-cost"]
+                        }
+                        return newItem;
+                    })
+                    console.log(dataContent3);
             var ctx = document.getElementById('myChart-8');
-    
-    
-            const data = {
-                labels: [
-                    '百貨公司',
-                    '零售式量販店',
-                    '超級市場',
-                    '便利商店',
-                    '綜合商品零售業',
-    
-                ],
+            const data2 = {
+                // labels: [
+                //     '百貨公司',
+                //     '零售式量販店',
+                //     '超級市場',
+                //     '便利商店',
+                //     '綜合商品零售業',
+                // ],
                 datasets: [{
-                    label: '台北市',
-                    data: [65, 59, 60, 51, 56],
+                    // label: '台北市',
+                    data: dataContent1,
                     fill: true,
                     backgroundColor: 'rgba(255, 65, 164, 0.3)',
                     borderColor: '#fff0',
@@ -176,8 +262,8 @@
                     pointHoverBackgroundColor: '#ff0',
                     pointHoverBorderColor: 'rgb(111, 2, 12)'
                 }, {
-                    label: '台中市',
-                    data: [48, 58, 40, 19, 76],
+                    // label: '台中市',
+                    data: dataContent2,
                     fill: true,
                     backgroundColor: 'rgba(54, 162, 235, 0.5)',
                     borderColor: 'rgb(54, 162, 235,0)',
@@ -187,8 +273,8 @@
                     pointHoverBorderColor: 'rgb(54, 162, 23)'
                 },
                 {
-                    label: '高雄市',
-                    data: [77, 20, 80, 30, 66],
+                    // label: '高雄市',
+                    data: dataContent3,
                     fill: true,
                     backgroundColor: 'rgba(121, 255, 121,0.6)',
                     borderColor: '#fff0',
