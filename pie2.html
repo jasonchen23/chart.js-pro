@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Line</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div>
+                <h1 class="text-center">110年全北市各行業之電子發票B2C開立之平均客單價</h1>
+            </div>
+        </div>
+    </div>
+    <div>
+        <canvas id="myChart" width="800" height="400"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('myChart');
+
+
+        const data = {
+            labels: ['中正區', '大同區', '中山區', '松山區', '大安區', '萬華區', '信義區', '士林區', '北投區', '內湖區', '南港區', '文山區'],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [81645, 40040, 64244, 78722, 112983, 48389, 101189, 57170, 51766, 63018, 44479,
+                    88720],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(255, 255, 255)',
+                    'rgb(162, 201, 159)',
+                    'rgb(224, 181, 198)',
+                    'rgb(224, 204, 239)',
+                    'rgb(141, 178, 239)',
+                    'rgb(141, 242, 239)',
+                    'rgb(141, 242, 48)',
+                    'rgb(141, 27, 48)',
+                    'rgb(255, 7, 117)',
+
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        const config = {
+            type: 'doughnut',
+            data: data,
+            options: {
+                // maintainAspectRatio: false
+                aspectRatio: 2
+            },
+        };
+
+
+        const myChart = new Chart(ctx, config)
+    </script>
+</body>
+
+</html>

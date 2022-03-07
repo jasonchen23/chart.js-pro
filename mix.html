@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Chart.js</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.0.2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center">109~110年全北市各行業之電子發票B2C開立之平均客單價</h1>
+        </div>
+    </div>
+    <div>
+        <canvas id="myChart" width="400" height="200"></canvas>
+
+    </div>
+    <script>
+        var ctx = document.getElementById('myChart');
+        const data = {
+            labels: ['中正區', '大同區', '中山區', '松山區', '大安區', '萬華區', '信義區', '士林區', '北投區', '內湖區', '南港區', '文山區'],
+            datasets: [{
+                type: 'bar',
+                label: '109年台北市各區之平均客單價',
+                data: [88720, 95424, 137013, 76543, 104554, 37751, 112401, 54208, 56856, 30673, 88873,
+                    12102],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    // 'rgba(54, 162, 235, 1)',
+                    // 'rgba(255, 206, 86, 1)',
+                    // 'rgba(75, 192, 192, 1)'
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)'
+                ],
+            }, {
+                type: 'line',
+                borderWidth: 1,
+                label: '110台北市各區之平均客單價',
+                data: [81645, 40040, 64244, 78722, 112983, 48389, 101189, 57170, 51766, 63018, 44479,
+                    88720],
+                fill: false,
+                borderColor: 'rgb(54, 162, 235)'
+            }]
+        };
+
+        const config = {
+            type: 'scatter',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        display: true,
+                        position:'left',
+                        title:{
+                            display: true,
+                            text:'TWD'
+                        }
+                    }
+                }
+            }
+        };
+
+
+        const myChart = new Chart(ctx, config)
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3.chart/0.3.0/d3.chart.min.js"
+        integrity="sha512-QETtBMmdL3kiDKvgtrz9ni2wDJ8Pt74WL90Q5tHogUi3JZsz8mDp+ey601pTYYRw+OmLLX956h2TeoJDw04+PQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
