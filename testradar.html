@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar</title>
+</head>
+
+<body>
+    <canvas id="myChart" width="800" height="400"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('myChart');
+
+
+        const data = {
+            labels: [
+                '百貨公司',
+                '零售式量販店',
+                '超級市場',
+                '便利商店',
+                '綜合商品零售業',
+                
+            ],
+            datasets: [{
+                label: '台北市',
+                data: [65, 59, 90, 81, 56],
+                fill: true,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgb(255, 99, 132)',
+                pointBackgroundColor: 'rgb(255, 99, 132)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(255, 10, 132)'
+            }, {
+                label: '台中市',
+                data: [28, 48, 40, 19, 96],
+                fill: true,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgb(54, 162, 235)',
+                pointBackgroundColor: 'rgb(54, 162, 235)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(54, 162, 23)'
+            },
+            {
+                label: '高雄市',
+                data: [77, 20, 80, 30, 66],
+                fill: true,
+                backgroundColor: 'rgba(40, 255, 40, 0.2)',
+                borderColor: 'rgb(114, 162, 235)',
+                pointBackgroundColor: 'rgb(110, 162, 235)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(54, 162, 235)'
+            }]
+        };
+
+
+        const config = {
+            type: 'radar',
+            data: data,
+            options: {
+                aspectRatio: 1,
+                elements: {
+                    line: {
+                        borderWidth: 3 
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(0,0,0,0)'
+                        },
+                        grid: {
+                            color: 'pink'
+                        },
+                        pointLabels: {
+                            color: 'red',
+                            font: {
+                                size: 16
+                            }
+                        },
+                        ticks: {
+                            color: 'red'
+                        },
+                        min: 0,
+                        max: 100
+                    }
+                },
+
+            },
+        };
+
+
+
+        const myChart = new Chart(ctx, config)
+    </script>
+</body>
+
+</html>
