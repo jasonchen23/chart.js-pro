@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>雷達圖</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.0.2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <body>
+        <div class="card ">
+            <div class="information">
+                <h3 class="mt-3">Chart.js 雷達圖</h3>
+                <p>台灣三大都會區各零售業客單價統計</p>
+                <canvas id="myChart" width="800" height="400"></canvas>
+            </div>
+        </div>
+    
+    
+    
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            var ctx = document.getElementById('myChart');
+    
+    
+            const data = {
+                labels: [
+                    '百貨公司',
+                    '零售式量販店',
+                    '超級市場',
+                    '便利商店',
+                    '綜合商品零售業',
+    
+                ],
+                datasets: [{
+                    label: '台北市',
+                    data: [65, 59, 60, 51, 56],
+                    fill: true,
+                    backgroundColor: 'rgba(255, 65, 164, 0.3)',
+                    borderColor: '#fff0',
+                    pointBackgroundColor: 'rgb(233, 99, 132)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#ff0',
+                    pointHoverBorderColor: 'rgb(111, 2, 12)'
+                }, {
+                    label: '台中市',
+                    data: [48, 58, 40, 19, 76],
+                    fill: true,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgb(54, 162, 235,0)',
+                    pointBackgroundColor: 'rgb(54, 162, 235)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(54, 162, 23)'
+                },
+                {
+                    label: '高雄市',
+                    data: [77, 20, 80, 30, 66],
+                    fill: true,
+                    backgroundColor: 'rgba(121, 255, 121,0.6)',
+                    borderColor: '#fff0',
+                    pointBackgroundColor: '#007500',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(54, 162, 235)'
+                }]
+            };
+    
+    
+            const config = {
+                type: 'radar',
+                data: data,
+                options: {
+                    aspectRatio: 1,
+                    elements: {
+                        line: {
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(0,0,0,0)'
+                            },
+                            grid: {
+                                color: '#eee'
+                            },
+                            pointLabels: {
+                                color: '	#00AEAE',
+                                font: {
+                                    size: 16
+                                }
+                            },
+                            ticks: {
+                                color: 'red'
+                            },
+                            min: 0,
+                            max: 100
+                        }
+                    },
+    
+                },
+            };
+    
+    
+    
+            const myChart = new Chart(ctx, config)
+        </script>
+
+        <style>
+            body {
+                background: #f3f3f3;
+                /* font-family: 'ZCOOL QingKe HuangYou', cursive; */
+            }
+    
+            .card {
+                background: #fff;
+                box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+                width: 80%;
+                height: 80%;
+                border-radius: 10px;
+                /*邊角鈍化 */
+                overflow: hidden;
+                /*定義元素超過某個範圍的時候該如何呈現 */
+            }
+    
+            .card .information h3,
+            .card .information p {
+                font-weight: 300;
+                margin: 0;
+            }
+    
+            .card .information h3 {
+                font-size: 28px;
+            }
+    
+            .card .information p {
+                color: #aaa;
+                font-size: 18px;
+            }
+        </style>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+  </body>
+</html>
