@@ -331,7 +331,7 @@ require_once("./db-connect.php");
                     console.log(dataContent2);
                     var ctx = document.getElementById('myChart-3');
                     const myChart3 = new Chart(ctx, {
-                        type: 'pie',
+                        type: 'doughnut',
                         data: {
                             labels: labels,
                             datasets: [{
@@ -351,6 +351,7 @@ require_once("./db-connect.php");
                                 label: '標籤名稱',
                                 data: data,
                                 fill: false, // 是否填滿色彩
+                                hoverOffset: 4,
                             }]
                         },
                         options: {
