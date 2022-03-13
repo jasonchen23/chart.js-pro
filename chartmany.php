@@ -1,5 +1,5 @@
 <?php
-require_once("./db-connect.php");
+require_once("./dbs-connect.php");
 ?>
 <!doctype html>
 <html lang="en">
@@ -116,14 +116,26 @@ require_once("./db-connect.php");
                 <h4>109-110年台北市各區之平均客單價</h4>
                 <canvas id="myChart-1"></canvas>
                 <?php
-                $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart-test` WHERE `city-id`='A' AND `company-name`='便利商店' AND `receipt` BETWEEN 201901 AND 201912 group by `downtown-id` ORDER BY `chart-test`.`downtown-id` ASC;";
-                $result= $conn -> query($sql);
-                $data=$result->fetch_all(MYSQLI_ASSOC);
+                $sql="SELECT [downtown_id]
+                ,sum([average_per_cost]) AS [total]
+            FROM [dbo].[chart.js]
+            WHERE [city_id]='A' AND [company_name]='便利商店' AND [receipt] BETWEEN '201901' AND '201912' 
+            GROUP BY [downtown_id]
+            ORDER BY [dbo].[chart.js].[downtown_id] ASC;";
+                $result= $conn -> prepare($sql);
+                $result->execute();
+                $data=$result->fetch_all(PDO::FETCH_ASSOC);
                 $data109= json_encode($data);
                 ?><?php
-                $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart-test` WHERE `city-id`='A' AND `company-name`='便利商店' AND `receipt` BETWEEN 202001 AND 202012 group by `downtown-id` ORDER BY `chart-test`.`downtown-id` ASC;";
-                $result= $conn -> query($sql);
-                $data=$result->fetch_all(MYSQLI_ASSOC);
+                $sql="SELECT [downtown_id]
+                ,sum([average_per_cost]) AS [total]
+            FROM [dbo].[chart.js]
+            WHERE [city_id]='A' AND [company_name]='便利商店' AND [receipt] BETWEEN '202001' AND '202012' 
+            GROUP BY [downtown_id]
+            ORDER BY [dbo].[chart.js].[downtown_id] ASC;";
+                $result= $conn -> prepare($sql);
+                $result->execute();
+                $data=$result->fetch_all(PDO::FETCH_ASSOC);
                 $data110= json_encode($data);
                 ?>
                 <script>
@@ -200,9 +212,15 @@ require_once("./db-connect.php");
                 <h4>台灣三大都會區各零售業客單價統計</h4>
                 <canvas id="myChart-2" width="800" height="400"></canvas>
                 <?php
-                    $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart-test` WHERE `city-id`='A' AND `receipt` BETWEEN 201901 AND 201912 group by `downtown-id` ORDER BY `chart-test`.`downtown-id` ASC;";
-                    $result= $conn -> query($sql);
-                    $data=$result->fetch_all(MYSQLI_ASSOC);
+                    $sql="SELECT [downtown_id]
+                    ,sum([average_per_cost]) AS [total]
+                FROM [dbo].[chart.js]
+                WHERE [city_id]='A' AND [receipt] BETWEEN '201901' AND '201912' 
+                GROUP BY [downtown_id]
+                ORDER BY [dbo].[chart.js].[downtown_id] ASC;";
+                    $result= $conn -> prepare($sql);
+                $result->execute();
+                    $data=$result->fetch_all(PDO::FETCH_ASSOC);
                     $data1= json_encode($data);
                     ?>
                 <script>
@@ -311,9 +329,15 @@ require_once("./db-connect.php");
             <div class="chart-body">
                 <canvas id="myChart-3"></canvas>
                 <?php
-                    $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart-test` WHERE `city-id`='A' AND `receipt` BETWEEN 201901 AND 201912 group by `downtown-id` ORDER BY `chart-test`.`downtown-id` ASC;";
-                    $result= $conn -> query($sql);
-                    $data=$result->fetch_all(MYSQLI_ASSOC);
+                    $sql="SELECT [downtown_id]
+                    ,sum([average_per_cost]) AS [total]
+                FROM [dbo].[chart.js]
+                WHERE [city_id]='A' AND [receipt] BETWEEN '202001' AND '202012' 
+                GROUP BY [downtown_id]
+                ORDER BY [dbo].[chart.js].[downtown_id] ASC;";
+                    $result= $conn -> prepare($sql);
+                $result->execute();
+                    $data=$result->fetch_all(PDO::FETCH_ASSOC);
                     $data2= json_encode($data);
                     ?>
                 <script>
@@ -378,9 +402,10 @@ require_once("./db-connect.php");
             <div class="chart-body">
                 <canvas id="myChart-5"></canvas>
                 <?php
-                    $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `chart-test` WHERE `city-id`='A' AND `receipt` BETWEEN 202001 AND 202012 group by `downtown-id` ORDER BY `chart-test`.`downtown-id` ASC;";
-                    $result= $conn -> query($sql);
-                    $data=$result->fetch_all(MYSQLI_ASSOC);
+                    $sql="SELECT `receipt`,`city-id`,`downtown-id`,`downtown-name`,`company-name`,sum(`average-per-cost`) AS `average-per-cost` FROM `dbo.chart.js` WHERE `city-id`='A' AND `receipt` BETWEEN 202001 AND 202012 group by `downtown-id` ORDER BY `dbo.chart.js`.`downtown-id` ASC;";
+                    $result= $conn -> prepare($sql);
+                $result->execute();
+                    $data=$result->fetch_all(PDO::FETCH_ASSOC);
                     $data3= json_encode($data);
                     ?>
                 <script>
